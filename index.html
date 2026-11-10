@@ -21,7 +21,6 @@
   <main class="wrap">
     <section class="intro" aria-labelledby="page-title">
       <div><p class="eyebrow">SMALL SQUARE. ENDLESS POSSIBILITIES.</p><h1 id="page-title">A message, made <em>scannable.</em></h1><p class="intro-copy">Turn a link, a note, or an idea into a QR code. Ready to share in seconds.</p></div>
-      <span class="model-tag">QR CODE<br><strong>MODEL 2</strong><span aria-hidden="true">↙</span></span>
     </section>
 
     <noscript><p class="notice">Enable JavaScript to generate QR codes. All encoding takes place in your browser.</p></noscript>
@@ -29,8 +28,8 @@
       <form id="settings" class="editor panel">
         <div class="section-heading"><span class="step-number">01</span><h2>Your content</h2><button type="button" id="clear" class="text-button">Clear</button></div>
         <label for="message">What would you like to share?</label>
-        <textarea id="message" name="message" rows="5" maxlength="10000" spellcheck="false" aria-describedby="input-help byte-count" placeholder="Paste a link or write something…">https://example.com</textarea>
-        <div class="input-meta"><span id="input-help">Text or a full URL, exactly as entered.</span><span id="byte-count">19 bytes</span></div>
+        <textarea id="message" name="message" rows="5" maxlength="10000" spellcheck="false" aria-describedby="byte-count" placeholder="Paste a link or write something…">https://example.com</textarea>
+        <div class="input-meta"><span id="byte-count">19 bytes</span></div>
         <div class="examples"><span>Try it</span><button type="button" data-example="link">A link <span aria-hidden="true">↗</span></button><button type="button" data-example="hello">HELLO</button><button type="button" data-example="unicode">你好, world</button></div>
 
         <fieldset class="correction"><legend>Error correction</legend><p id="correction-help" class="field-help">More recovery adds redundancy and can increase the code’s size.</p>
@@ -50,7 +49,6 @@
           </div>
           <p class="field-help">Non-ASCII byte text uses UTF-8 with ECI 26. Automatic mode selects a single numeric, alphanumeric, or byte segment.</p>
         </details>
-        <p class="privacy-note"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8V6a4 4 0 0 1 8 0v2M4 8h12v10H4z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Your message stays in this tab. No uploads, no tracking.</p>
       </form>
 
       <section class="preview-panel panel" aria-labelledby="preview-title">
@@ -60,18 +58,16 @@
           <div id="qr-preview" role="img" aria-label="Generated QR code"></div>
           <p id="preview-placeholder">Creating your code…</p>
         </div>
-        <p id="result-caption" class="preview-caption">A clear margin is included for reliable scanning.</p>
         <p id="error" class="error" role="alert" hidden></p>
         <dl class="quick-stats"><div><dt>VERSION</dt><dd id="stat-version">—</dd></div><div><dt>GRID</dt><dd id="stat-grid">—</dd></div><div><dt>MASK</dt><dd id="stat-mask">—</dd></div></dl>
         <div class="export-settings"><label for="scale">Export size</label><select id="scale"><option value="4">4 px / module</option><option value="8">8 px / module</option><option value="10" selected>10 px / module</option><option value="16">16 px / module</option><option value="20">20 px / module</option></select><span id="dimensions">—</span></div>
         <div class="download-buttons"><button type="button" id="download-png" class="button primary" disabled><span aria-hidden="true">↓</span> Download PNG</button><button type="button" id="download-svg" class="button secondary" disabled><span aria-hidden="true">↓</span> SVG</button></div>
-        <p class="export-note">Crisp black & white. A four-module quiet zone. Ready for print.</p>
       </section>
     </section>
     <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
 
     <section id="inside" class="inside" aria-labelledby="inside-title">
-      <div class="inside-heading"><div><p class="eyebrow">A LITTLE SCIENCE IN EVERY SQUARE</p><h2 id="inside-title">Behind the code.</h2></div><p>From your message to a grid of possibilities.<br>Explore the four steps that make it work.</p></div>
+      <div class="inside-heading"><h2 id="inside-title">Behind the code.</h2></div>
       <div class="process-grid">
         <article><span class="process-number">01 / ENCODE</span><h3>A message becomes bits.</h3><p>Represent the content with a mode indicator, a count, and the encoded message. Add a terminator and padding.</p><span id="encode-detail" class="process-value">Waiting for a message</span></article>
         <article><span class="process-number">02 / PROTECT</span><h3>Give it room to recover.</h3><p>Calculate Reed–Solomon correction words for each block, then interleave the words to distribute local damage.</p><span id="protect-detail" class="process-value">—</span></article>

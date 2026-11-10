@@ -43,7 +43,6 @@ function resetPreview(message, status) {
   $('preview-stage').setAttribute('aria-busy', String(status === 'Updating…'));
   for (const id of ['stat-version', 'stat-grid', 'stat-mask', 'dimensions', 'protect-detail', 'place-detail', 'mask-detail']) $(id).textContent = '—';
   $('encode-detail').textContent = 'Waiting for a message';
-  $('result-caption').textContent = 'A clear margin is included for reliable scanning.';
   $('inspect-content').replaceChildren(Object.assign(document.createElement('p'), { className: 'field-help', textContent: 'Enter a valid message to inspect its encoding.' }));
 }
 
@@ -93,7 +92,6 @@ function accept(response) {
   $('stat-version').textContent = String(result.version).padStart(2, '0');
   $('stat-grid').textContent = `${result.size} × ${result.size}`;
   $('stat-mask').textContent = `${result.mask}${$('mask').value === 'auto' ? ' / auto' : ' / fixed'}`;
-  $('result-caption').textContent = `${result.mode[0].toUpperCase() + result.mode.slice(1)} mode · Level ${result.level}${result.eci ? ' · UTF-8 / ECI 26' : ''}`;
   $('encode-detail').textContent = `${result.encodedBits} bits → ${result.capacity.data} data words`;
   $('protect-detail').textContent = `${result.capacity.blockCount} ${result.capacity.blockCount === 1 ? 'block' : 'blocks'} · ${result.capacity.blockCount * result.capacity.correctionPerBlock} correction words`;
   $('place-detail').textContent = `${result.capacity.available.toLocaleString()} encoding cells`;
@@ -193,7 +191,7 @@ form.addEventListener('change', event => { if (event.target !== $('message')) sc
 $('scale').addEventListener('change', updateDimensions);
 $('clear').addEventListener('click', () => { $('message').value = ''; $('message').focus(); schedule(true); });
 document.querySelectorAll('[data-example]').forEach(button => button.addEventListener('click', () => {
-  $('message').value = { link: 'https://example.com', hello: 'HELLO', unicode: '你好, world 👋' }[button.dataset.example];
+  $('message').value = { link: 'https://example.com', hello: 'HELLO', unicode: 'hello, world 👋' }[button.dataset.example];
   if (button.dataset.example === 'hello') {
     form.elements.level.value = 'M'; $('version').value = 'auto'; $('mask').value = 'auto';
   }

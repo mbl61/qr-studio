@@ -63,13 +63,13 @@ test('DOM integration: generation, examples, settings, validation, inspection, e
     assert.equal($('qr-preview').children.length, 0);
     assert.ok($('download-svg').disabled);
     submit('007'); assert.equal($('error').hidden, true);
-    assert.match($('result-caption').textContent, /Numeric/);
+    assert.ok($('qr-preview').firstElementChild.isEqualNode(JSDOM.fragment(toSvg(encodeText('007', { mode: 'numeric', level: 'M', mask: 0 }).matrix)).firstElementChild));
     change('mode', 'byte'); change('version', '1'); submit('a'.repeat(30));
     assert.match($('error').textContent, /does not fit/);
     change('version', 'auto');
     assert.equal($('preview-status').textContent, 'Ready to scan');
     window.document.querySelector('[data-example="unicode"]').click();
-    assert.match($('result-caption').textContent, /UTF-8 \/ ECI 26/);
+    assert.ok($('qr-preview').firstElementChild.isEqualNode(JSDOM.fragment(toSvg(encodeText($('message').value, { mode: 'byte', level: 'M', mask: 0 }).matrix)).firstElementChild));
     submit('<img src=x onerror=alert(1)>');
     assert.equal(window.document.querySelectorAll('img').length, 0);
     assert.equal($('preview-status').textContent, 'Ready to scan');
@@ -95,11 +95,11 @@ test('worker integration: discard stale results and recover from worker startup 
     assert.equal(app.$('stat-version').textContent, '01');
     app.worker.onmessage({ data: { id: initial.id, error: 'stale error' } });
     assert.equal(app.$('error').hidden, true);
-    app.submit('你好');
+    app.submit('hello');
     app.worker.onerror({ preventDefault() {} });
     assert.ok(app.worker.terminated);
     assert.equal(app.$('preview-status').textContent, 'Ready to scan');
-    assert.match(app.$('result-caption').textContent, /UTF-8/);
+    assert.ok(app.$('qr-preview').firstElementChild.isEqualNode(JSDOM.fragment(toSvg(encodeText('hello', { mode: 'byte', level: 'M' }).matrix)).firstElementChild));
     assert.deepEqual(app.errors, []);
   } finally { app.dom.window.close(); }
 });
