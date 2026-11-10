@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164d3e">
+  <meta name="description" content="Create QR codes in your browser. Export crisp PNG and SVG images, and explore how your message becomes a QR code.">
+  <title>QR Studio — A message, made scannable</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#generator">Skip to generator</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./" aria-label="QR Studio home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 2h11v11H2zm3 3v5h5V5zm14-3h11v11H19zm3 3v5h5V5zM2 19h11v11H2zm3 3v5h5v-5zm14-3h5v5h-5zm6 6h5v5h-5zm0-6h5v3h-5zm-6 8h3v3h-3z" fill="currentColor" fill-rule="evenodd"/></svg>QR <span>Studio</span></a>
+    <nav aria-label="Main navigation"><a href="#generator" class="active">Create a code</a><a href="#inside">How it works <span aria-hidden="true">↗</span></a></nav>
+    <span class="local-badge"><span class="status-dot"></span> Made on your device</span>
+  </header>
+
+  <main class="wrap">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">SMALL SQUARE. ENDLESS POSSIBILITIES.</p><h1 id="page-title">A message, made <em>scannable.</em></h1><p class="intro-copy">Turn a link, a note, or an idea into a QR code. Ready to share in seconds.</p></div>
+      <span class="model-tag">QR CODE<br><strong>MODEL 2</strong><span aria-hidden="true">↙</span></span>
+    </section>
+
+    <noscript><p class="notice">Enable JavaScript to generate QR codes. All encoding takes place in your browser.</p></noscript>
+    <section id="generator" class="workspace" aria-label="QR code generator">
+      <form id="settings" class="editor panel">
+        <div class="section-heading"><span class="step-number">01</span><h2>Your content</h2><button type="button" id="clear" class="text-button">Clear</button></div>
+        <label for="message">What would you like to share?</label>
+        <textarea id="message" name="message" rows="5" maxlength="10000" spellcheck="false" aria-describedby="input-help byte-count" placeholder="Paste a link or write something…">https://example.com</textarea>
+        <div class="input-meta"><span id="input-help">Text or a full URL, exactly as entered.</span><span id="byte-count">19 bytes</span></div>
+        <div class="examples"><span>Try it</span><button type="button" data-example="link">A link <span aria-hidden="true">↗</span></button><button type="button" data-example="hello">HELLO</button><button type="button" data-example="unicode">你好, world</button></div>
+
+        <fieldset class="correction"><legend>Error correction</legend><p id="correction-help" class="field-help">More recovery adds redundancy and can increase the code’s size.</p>
+          <div class="level-options">
+            <label><input type="radio" name="level" value="L" aria-describedby="correction-help"><span><strong>L</strong><small>Low</small></span></label>
+            <label><input type="radio" name="level" value="M" checked aria-describedby="correction-help"><span><strong>M</strong><small>Medium</small></span></label>
+            <label><input type="radio" name="level" value="Q" aria-describedby="correction-help"><span><strong>Q</strong><small>Quartile</small></span></label>
+            <label><input type="radio" name="level" value="H" aria-describedby="correction-help"><span><strong>H</strong><small>High</small></span></label>
+          </div>
+        </fieldset>
+
+        <details class="advanced"><summary>Advanced settings <span>Mode, version & mask</span></summary>
+          <div class="advanced-fields">
+            <div><label for="mode">Encoding mode</label><select id="mode" name="mode"><option value="byte">Byte (general purpose)</option><option value="auto">Automatic (one segment)</option><option value="numeric">Numeric</option><option value="alphanumeric">Alphanumeric</option></select></div>
+            <div><label for="version">Symbol version</label><select id="version" name="version"><option value="auto">Smallest that fits</option></select></div>
+            <div><label for="mask">Mask pattern</label><select id="mask" name="mask"><option value="auto">Automatic (lowest penalty)</option></select></div>
+          </div>
+          <p class="field-help">Non-ASCII byte text uses UTF-8 with ECI 26. Automatic mode selects a single numeric, alphanumeric, or byte segment.</p>
+        </details>
+        <p class="privacy-note"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8V6a4 4 0 0 1 8 0v2M4 8h12v10H4z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Your message stays in this tab. No uploads, no tracking.</p>
+      </form>
+
+      <section class="preview-panel panel" aria-labelledby="preview-title">
+        <div class="section-heading"><span class="step-number">02</span><h2 id="preview-title">Your QR code</h2><span id="preview-status" class="ready-badge">Preparing…</span></div>
+        <div class="preview-stage" id="preview-stage" aria-busy="true">
+          <div class="corner corner-tl"></div><div class="corner corner-tr"></div><div class="corner corner-bl"></div><div class="corner corner-br"></div>
+          <div id="qr-preview" role="img" aria-label="Generated QR code"></div>
+          <p id="preview-placeholder">Creating your code…</p>
+        </div>
+        <p id="result-caption" class="preview-caption">A clear margin is included for reliable scanning.</p>
+        <p id="error" class="error" role="alert" hidden></p>
+        <dl class="quick-stats"><div><dt>VERSION</dt><dd id="stat-version">—</dd></div><div><dt>GRID</dt><dd id="stat-grid">—</dd></div><div><dt>MASK</dt><dd id="stat-mask">—</dd></div></dl>
+        <div class="export-settings"><label for="scale">Export size</label><select id="scale"><option value="4">4 px / module</option><option value="8">8 px / module</option><option value="10" selected>10 px / module</option><option value="16">16 px / module</option><option value="20">20 px / module</option></select><span id="dimensions">—</span></div>
+        <div class="download-buttons"><button type="button" id="download-png" class="button primary" disabled><span aria-hidden="true">↓</span> Download PNG</button><button type="button" id="download-svg" class="button secondary" disabled><span aria-hidden="true">↓</span> SVG</button></div>
+        <p class="export-note">Crisp black & white. A four-module quiet zone. Ready for print.</p>
+      </section>
+    </section>
+    <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+
+    <section id="inside" class="inside" aria-labelledby="inside-title">
+      <div class="inside-heading"><div><p class="eyebrow">A LITTLE SCIENCE IN EVERY SQUARE</p><h2 id="inside-title">Behind the code.</h2></div><p>From your message to a grid of possibilities.<br>Explore the four steps that make it work.</p></div>
+      <div class="process-grid">
+        <article><span class="process-number">01 / ENCODE</span><h3>A message becomes bits.</h3><p>Represent the content with a mode indicator, a count, and the encoded message. Add a terminator and padding.</p><span id="encode-detail" class="process-value">Waiting for a message</span></article>
+        <article><span class="process-number">02 / PROTECT</span><h3>Give it room to recover.</h3><p>Calculate Reed–Solomon correction words for each block, then interleave the words to distribute local damage.</p><span id="protect-detail" class="process-value">—</span></article>
+        <article><span class="process-number">03 / PLACE</span><h3>Put every bit in its place.</h3><p>Follow a zigzag path around the finder, timing, and alignment patterns. Keep the function cells reserved.</p><span id="place-detail" class="process-value">—</span></article>
+        <article><span class="process-number">04 / MASK</span><h3>Make the pattern readable.</h3><p>Score eight masks for runs, squares, finder-like shapes, and colour balance. Choose the lowest penalty.</p><span id="mask-detail" class="process-value">—</span></article>
+      </div>
+
+      <details id="inspector" class="inspector panel"><summary><span>Explore this code’s encoding</span><span class="summary-hint">Codewords, blocks & all eight masks</span></summary><div id="inspect-content"><p class="field-help">Enter a message to inspect its encoding.</p></div></details>
+    </section>
+  </main>
+  <footer class="wrap"><span class="brand-small">QR Studio <span> / </span> Made to connect.</span><span>Static by design. Private by default.</span><a href="./README.md">Project guide <span aria-hidden="true">↗</span></a></footer>
+</body>
+</html>
